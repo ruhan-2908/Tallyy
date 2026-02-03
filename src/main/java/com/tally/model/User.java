@@ -1,6 +1,7 @@
 package com.tally.model;
 
 
+import com.tally.domain.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,7 +29,11 @@ public class User {
 
     private String phone;
 
+    @Column(nullable = false)
     private UserRole role;
+
+    @Column(nullable = false)
+    private String password;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

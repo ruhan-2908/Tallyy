@@ -1,15 +1,18 @@
 package com.tally.configuration;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
+import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+
+@Service
 public class JWTProvider {
     static SecretKey key = Keys.hmacShaKeyFor(JWTConstants.JWT_SECRET.getBytes());
     public String generateToken(Authentication authentication)
@@ -24,6 +27,16 @@ public class JWTProvider {
                 .claim("authorities",roles)
                 .signWith(key)
                 .compact();
+    }
+    public String getEmailFromToken(String jwt)
+    {
+        jwt = jwt.substring(7);
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(jwt)
+                .getPayload();
+        return String.valueOf(claims.get("email"));
     }
     public String populateAuthorities(Collection<? extends GrantedAuthority> authorities)
     {

@@ -100,7 +100,8 @@ public class AuthServiceImpl implements AuthService {
             throw new UserException("Incorrect Password!");
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetai
+                ls,null,userDetails.getAuthorities());
 
     }
 }

@@ -6,6 +6,7 @@ import com.tally.payload.dto.UserDto;
 import com.tally.payload.response.AuthResponse;
 import com.tally.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Autowired
     private AuthService authService;
 
     // -> /auth/signup
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signupHandler(@RequestBody UserDto userDto) throws UserException {
-        return ResponseEntity.status(201).body(authService.signup(userDto));
+        return ResponseEntity.ok(authService.signup(userDto));
     }
 
     // -> /auth/login

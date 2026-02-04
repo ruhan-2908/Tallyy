@@ -18,8 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 
 @Service
@@ -45,9 +47,9 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPhone(userDto.getPhone());
         newUser.setRole(userDto.getRole());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        newUser.setCreatedAt(userDto.getCreatedAt());
-        newUser.setUpdatedAt(userDto.getUpdatedAt());
-        newUser.setLastLogin(userDto.getLastLogin());
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setUpdatedAt(LocalDateTime.now());
+        newUser.setLastLogin(LocalDateTime.now());
 
         User savedUser = userRepository.save(newUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDto.getEmail(),userDto.getPassword());

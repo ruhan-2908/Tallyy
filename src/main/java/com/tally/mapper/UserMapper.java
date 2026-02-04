@@ -3,6 +3,8 @@ package com.tally.mapper;
 import com.tally.model.User;
 import com.tally.payload.dto.UserDto;
 
+import java.time.LocalDateTime;
+
 public class UserMapper {
     public static UserDto toDTO(User savedUser) {
         UserDto userDto = new UserDto();
@@ -10,9 +12,9 @@ public class UserMapper {
         userDto.setEmail(savedUser.getEmail());
         userDto.setPhone(savedUser.getPhone());
         userDto.setRole(savedUser.getRole());
-        userDto.setCreatedAt(savedUser.getCreatedAt());
-        userDto.setUpdatedAt(savedUser.getUpdatedAt());
-        userDto.setLastLogin(savedUser.getLastLogin());
+        userDto.setCreatedAt(LocalDateTime.now());
+        userDto.setUpdatedAt(LocalDateTime.now());
+        userDto.setLastLogin(LocalDateTime.now());
         return userDto;
     }
 }

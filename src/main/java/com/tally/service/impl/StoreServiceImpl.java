@@ -4,6 +4,7 @@ package com.tally.service.impl;
 import com.tally.exceptions.UserException;
 import com.tally.mapper.StoreMapper;
 import com.tally.model.Store;
+import com.tally.model.StoreContact;
 import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
 import com.tally.repository.StoreRepository;
@@ -13,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,31 +41,61 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreDto> getAllStores() {
-        List<StoreDto> res = new ArrayList<>();
-        for(Store store : storeRepository.findAll())
+        return storeRepository.findAll()
+                .stream().map(StoreMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Store getStoreByAdmin() throws UserException {
+        User storeAdmin = userService.getCurrentUser();
+        return storeRepository.findByStoreAdminId(storeAdmin.getId());
+    }
+
+    @Override
+    public StoreDto updateStore(Long id, StoreDto storeDto) throws UserException {
+        User currentUser = userService.getCurrentUser();
+
+        Store existing = storeRepository.findByStoreAdminId(currentUser.getId());
+
+        if(existing == null)
         {
-            res.add(StoreMapper.toDTO(store));
+            throw new UserException("Store not found");
         }
-        return res;
+        existing.setBrand(storeDto.getBrand());
+        existing.setDescription(storeDto.getDescription());
+
+        if(storeDto.getStoreType()!=null)
+        {
+            existing.setStoreType(storeDto.getStoreType());
+        }
+
+        if(storeDto.getContact()!=null)
+        {
+            StoreContact contact = StoreContact.builder()
+                    .address(storeDto.getContact().getAddress())
+                    .phone(storeDto.getContact().getPhone())
+                    .email(storeDto.getContact().getEmail())
+                    .build();
+            existing.setContact(contact);
+        }
+        Store updatedStore = storeRepository.save(existing);
+        return StoreMapper.toDTO(updatedStore);
     }
 
     @Override
-    public Store getStoreByAdmin() {
-        return null;
+    public void deleteStore(Long id) throws UserException {
+        Store store = getStoreByAdmin();
+        storeRepository.delete(store);
     }
 
     @Override
-    public StoreDto updateStore(Long id, StoreDto storeDto) {
-        return null;
-    }
-
-    @Override
-    public StoreDto deleteStore(Long id) {
-        return null;
-    }
-
-    @Override
-    public StoreDto getStoreByEmployee() {
-        return null;
+    public StoreDto getStoreByEmployee() throws UserException {
+        User currentUser = userService.getCurrentUser();
+        if(currentUser == null)
+        {
+            throw new UserException("You don't have permission to access this store");
+        }
+        return StoreMapper.toDTO(currentUser.getStore());
     }
 }

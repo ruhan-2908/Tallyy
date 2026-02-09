@@ -1,6 +1,8 @@
 package com.tally.service.impl;
 
 
+import com.tally.exceptions.UserException;
+import com.tally.mapper.StoreMapper;
 import com.tally.model.Store;
 import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,17 +26,26 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto createStore(StoreDto storeDto, User user) {
-        return null;
+        Store store = StoreMapper.toEntity(storeDto,user);
+        return StoreMapper.toDTO(storeRepository.save(store));
     }
 
     @Override
-    public StoreDto getStoreById(Long id) {
-        return null;
+    public StoreDto getStoreById(Long id) throws UserException {
+        Store store = storeRepository.findById(id).orElseThrow(
+                () -> new UserException("Store not found!")
+        );
+        return StoreMapper.toDTO(store);
     }
 
     @Override
     public List<StoreDto> getAllStores() {
-        return List.of();
+        List<StoreDto> res = new ArrayList<>();
+        for(Store store : storeRepository.findAll())
+        {
+            res.add(StoreMapper.toDTO(store));
+        }
+        return res;
     }
 
     @Override

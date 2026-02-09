@@ -1,5 +1,6 @@
 package com.tally.mapper;
 
+import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
 import com.tally.model.Store;
 
@@ -17,5 +18,20 @@ public class StoreMapper {
         storeDto.setUpdatedAt(store.getUpdatedAt());
         storeDto.setStatus(store.getStatus());
         return storeDto;
+    }
+    public static Store toEntity(StoreDto storeDto, User storeAdmin)
+    {
+        Store store = new Store();
+        store.setId(storeDto.getId());
+        store.setBrand(storeDto.getBrand());
+        store.setStoreAdmin(storeAdmin);
+        store.setCreatedAt(storeDto.getCreatedAt());
+        store.setUpdatedAt(storeDto.getUpdatedAt());
+        store.setDescription(storeDto.getDescription());
+        store.setStoreType(storeDto.getStoreType());
+        store.setStatus(storeDto.getStatus());
+        store.setContact(storeDto.getContact());
+
+        return store;
     }
 }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class UserMapper {
     public static UserDto toDTO(User savedUser) {
         UserDto userDto = new UserDto();
+        userDto.setId(savedUser.getId());
         userDto.setFullName(savedUser.getFullName());
         userDto.setEmail(savedUser.getEmail());
         userDto.setPhone(savedUser.getPhone());

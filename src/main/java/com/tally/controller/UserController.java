@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(
             @RequestHeader("Authorization") String jwt,
             @PathVariable Long id
-    ) throws UserException {
+    ) throws UserException, Exception {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(UserMapper.toDTO(user));
     }

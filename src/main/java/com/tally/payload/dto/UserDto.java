@@ -2,9 +2,6 @@ package com.tally.payload.dto;
 
 
 import com.tally.domain.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 import java.time.LocalDateTime;

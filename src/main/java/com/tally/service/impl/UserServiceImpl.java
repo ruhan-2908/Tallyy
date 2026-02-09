@@ -54,12 +54,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) throws UserException {
-        User user = userRepository.findById(id).orElse(null);
-        if(user== null)
-        {
-            throw new UserException("User not found!");
-        }
+    public User getUserById(Long id) throws UserException, Exception {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new Exception("User Not Found!")
+        );
         return user;
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/store")
+@RequestMapping("/api/stores")
 public class StoreController {
 
 
@@ -68,7 +68,7 @@ public class StoreController {
     @PutMapping("{id}/moderate")
     public ResponseEntity<StoreDto> moderateStore(
             @PathVariable Long id,
-            @RequestBody StoreStatus storeStatus
+            @RequestParam StoreStatus storeStatus
     ) throws UserException
     {
         return ResponseEntity.ok(storeService.moderateStore(id,storeStatus));

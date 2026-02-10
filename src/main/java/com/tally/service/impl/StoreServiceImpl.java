@@ -13,7 +13,6 @@ import com.tally.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +46,20 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store getStoreByAdmin() throws UserException {
+    public StoreDto getStoreByAdmin() throws UserException {
         User storeAdmin = userService.getCurrentUser();
-        return storeRepository.findByStoreAdminId(storeAdmin.getId());
+        Store store = storeRepository.findByStoreAdminId(storeAdmin.getId());
+        return StoreMapper.toDTO(store);
+    }
+
+    @Override
+    public StoreDto getStoreByEmployee() throws UserException {
+        User currentUser = userService.getCurrentUser();
+        if(currentUser == null)
+        {
+            throw new UserException("You don't have permission to access this store");
+        }
+        return StoreMapper.toDTO(currentUser.getStore());
     }
 
     @Override
@@ -85,17 +95,12 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void deleteStore(Long id) throws UserException {
-        Store store = getStoreByAdmin();
-        storeRepository.delete(store);
-    }
-
-    @Override
-    public StoreDto getStoreByEmployee() throws UserException {
-        User currentUser = userService.getCurrentUser();
-        if(currentUser == null)
+        User user = userService.getUserById(id);
+        if(user == null)
         {
-            throw new UserException("You don't have permission to access this store");
+            throw new UserException("User not found!");
         }
-        return StoreMapper.toDTO(currentUser.getStore());
+        Store store = StoreMapper.toEntity(getStoreByAdmin(),user);
+        storeRepository.delete(store);
     }
 }

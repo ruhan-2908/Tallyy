@@ -1,7 +1,6 @@
 package com.tally.service;
 
 import com.tally.exceptions.UserException;
-import com.tally.model.Store;
 import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ public interface StoreService {
     StoreDto createStore(StoreDto storeDto, User user);
     StoreDto getStoreById(Long id) throws UserException;
     List<StoreDto> getAllStores();
-    Store getStoreByAdmin() throws UserException;
+    StoreDto getStoreByAdmin() throws UserException;
     StoreDto updateStore(Long id, StoreDto storeDto) throws UserException;
     void deleteStore(Long id) throws UserException;
     StoreDto getStoreByEmployee() throws UserException;

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public interface
-AuthService {
+public interface AuthService {
     AuthResponse signup (UserDto userDto) throws UserException;
     AuthResponse login (UserDto userDto) throws UserException;
 }

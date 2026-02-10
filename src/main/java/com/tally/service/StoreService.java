@@ -1,5 +1,6 @@
 package com.tally.service;
 
+import com.tally.domain.StoreStatus;
 import com.tally.exceptions.UserException;
 import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
@@ -16,5 +17,5 @@ public interface StoreService {
     StoreDto updateStore(Long id, StoreDto storeDto) throws UserException;
     void deleteStore(Long id) throws UserException;
     StoreDto getStoreByEmployee() throws UserException;
-
+    StoreDto moderateStore(Long id, StoreStatus storeStatus) throws UserException;
 }

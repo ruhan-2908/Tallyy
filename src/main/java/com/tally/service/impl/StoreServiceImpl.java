@@ -1,6 +1,7 @@
 package com.tally.service.impl;
 
 
+import com.tally.domain.StoreStatus;
 import com.tally.exceptions.UserException;
 import com.tally.mapper.StoreMapper;
 import com.tally.model.Store;
@@ -93,6 +94,16 @@ public class StoreServiceImpl implements StoreService {
         return StoreMapper.toDTO(updatedStore);
     }
 
+    @Override
+    public StoreDto moderateStore(Long id, StoreStatus storeStatus) throws UserException
+    {
+        Store store = storeRepository.findById(id).orElseThrow(
+                () -> new UserException("Store not found")
+        );
+        store.setStatus(storeStatus);
+        Store updatedStore = storeRepository.save(store);
+        return StoreMapper.toDTO(updatedStore);
+    }
     @Override
     public void deleteStore(Long id) throws UserException {
         User user = userService.getUserById(id);

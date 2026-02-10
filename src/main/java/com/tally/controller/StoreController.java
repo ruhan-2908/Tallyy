@@ -1,6 +1,7 @@
 package com.tally.controller;
 
 
+import com.tally.domain.StoreStatus;
 import com.tally.exceptions.UserException;
 import com.tally.model.User;
 import com.tally.payload.dto.StoreDto;
@@ -62,6 +63,15 @@ public class StoreController {
             @RequestBody StoreDto storeDto
     ) throws UserException {
         return ResponseEntity.ok(storeService.updateStore(id,storeDto));
+    }
+
+    @PutMapping("{id}/moderate")
+    public ResponseEntity<StoreDto> moderateStore(
+            @PathVariable Long id,
+            @RequestBody StoreStatus storeStatus
+    ) throws UserException
+    {
+        return ResponseEntity.ok(storeService.moderateStore(id,storeStatus));
     }
 
     @DeleteMapping("/{id}")

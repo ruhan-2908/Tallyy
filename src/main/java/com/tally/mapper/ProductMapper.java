@@ -1,6 +1,7 @@
 package com.tally.mapper;
 
 import com.tally.model.Product;
+import com.tally.model.Store;
 import com.tally.payload.dto.ProductDto;
 
 public class ProductMapper {
@@ -22,7 +23,7 @@ public class ProductMapper {
                 .build();
     }
 
-    public static Product toEntity(ProductDto productDto)
+    public static Product toEntity(ProductDto productDto, Store store)
     {
         return Product.builder()
                 .name(productDto.getName())

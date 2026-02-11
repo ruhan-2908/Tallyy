@@ -1,7 +1,7 @@
 package com.tally.service;
 
 import com.tally.exceptions.UserException;
-import com.tally.payload.CategoryDto;
+import com.tally.payload.dto.CategoryDto;
 
 import java.util.List;
 

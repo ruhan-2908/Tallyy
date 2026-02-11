@@ -6,7 +6,7 @@ import com.tally.mapper.CategoryMapper;
 import com.tally.model.Category;
 import com.tally.model.Store;
 import com.tally.model.User;
-import com.tally.payload.CategoryDto;
+import com.tally.payload.dto.CategoryDto;
 import com.tally.repository.CategoryRepository;
 import com.tally.repository.StoreRepository;
 import com.tally.service.CategoryService;

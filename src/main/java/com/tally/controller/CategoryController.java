@@ -14,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/categories")
 public class CategoryController {
-    private CategoryService categoryService;
+
+    private final CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) throws Exception {

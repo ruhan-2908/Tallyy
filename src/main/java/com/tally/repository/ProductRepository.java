@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             WHERE p.store.id = :storeId
             AND (
                 LOWER(p.name) LIKE LOWER(CONCAT('%',:query,'%'))
-                OR LOWER(p.brand) LIKE LOWER(CONCAT('%',:query,'%))
+                OR LOWER(p.brand) LIKE LOWER(CONCAT('%',:query,'%'))
                 OR LOWER(p.sku) LIKE LOWER(CONCAT('%',:query,'%'))
             )
             """)

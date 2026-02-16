@@ -35,11 +35,10 @@ public class Product {
 
     private String image;
 
-//    @ManyToOne
-//    private Category category;
+    @ManyToOne
+    private Category category;
 
     @ManyToOne
-    @Column(nullable = false)
     private Store store;
 
     private LocalDateTime createdAt;

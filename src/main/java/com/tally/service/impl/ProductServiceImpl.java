@@ -1,10 +1,12 @@
 package com.tally.service.impl;
 
 import com.tally.mapper.ProductMapper;
+import com.tally.model.Category;
 import com.tally.model.Product;
 import com.tally.model.Store;
 import com.tally.payload.dto.ProductDto;
 import com.tally.model.User;
+import com.tally.repository.CategoryRepository;
 import com.tally.repository.ProductRepository;
 import com.tally.repository.StoreRepository;
 import com.tally.service.ProductService;
@@ -20,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
@@ -28,7 +31,10 @@ public class ProductServiceImpl implements ProductService {
         ).orElseThrow(
                 () -> new Exception("Store not found")
         );
-        Product product = ProductMapper.toEntity(productDto,store);
+        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                () -> new Exception("Category not found!")
+        );
+        Product product = ProductMapper.toEntity(productDto,store,category);
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDTO(savedProduct);
     }
@@ -38,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).orElseThrow(
                 ()-> new Exception("Product Not Found")
         );
+
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setSku(productDto.getSku());
@@ -47,6 +54,13 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(productDto.getBrand());
         product.setUpdatedAt(productDto.getUpdatedAt());
         Product savedProduct = productRepository.save(product);
+        if(productDto.getCategoryId()!=null)
+        {
+            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                    () -> new Exception("Category not found!")
+            );
+            product.setCategory(category);
+        }
         return ProductMapper.toDTO(savedProduct);
     }
 

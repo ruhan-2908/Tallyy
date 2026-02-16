@@ -30,7 +30,7 @@ public class ProductDto {
     private String image;
 
     private Long categoryId;
-//    private Category category;
+    private CategoryDto categoryDto;
 
 
     private Long storeId;

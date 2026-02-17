@@ -25,6 +25,11 @@ public class BranchMapper {
                  .storeId(branch.getStore()!=null? branch.getStore().getId() : null)
                  .build();
     }
+
+    // no branchDto.id -> branch.id because we use this toEntity for only once , in the create-controller
+    // and since the id is auto generated , we don't need to map then (while creation).
+    // this applies to all the toEntity without id->id mapping
+
     public static Branch toEntity(BranchDto branchDto, Store store)
     {
         return Branch.builder()

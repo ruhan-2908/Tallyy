@@ -1,7 +1,10 @@
 package com.tally.mapper;
 
-import com.tally.model.Branch
+import com.tally.model.Branch;
+import com.tally.model.Store;
 import com.tally.payload.dto.BranchDto;
+
+import java.time.LocalDateTime;
 
 public class BranchMapper {
     public static BranchDto toDTO(Branch branch)
@@ -19,13 +22,12 @@ public class BranchMapper {
                  .updatedAt(branch.getUpdatedAt())
                  .storeDto(StoreMapper.toDTO(branch.getStore()))
                  .manager(UserMapper.toDTO(branch.getManager()))
-                 .storeId(branch.getStore().getId())
+                 .storeId(branch.getStore()!=null? branch.getStore().getId() : null)
                  .build();
     }
-    public static Branch toEntity(BranchDto branchDto)
+    public static Branch toEntity(BranchDto branchDto, Store store)
     {
         return Branch.builder()
-                .id(branchDto.getId())
                 .name(branchDto.getName())
                 .address(branchDto.getAddress())
                 .phone(branchDto.getPhone())
@@ -33,9 +35,9 @@ public class BranchMapper {
                 .workingDays(branchDto.getWorkingDays())
                 .openTime(branchDto.getOpenTime())
                 .closeTime(branchDto.getCloseTime())
-                .createdAt(branchDto.getCreatedAt())
-                .updatedAt(branchDto.getUpdatedAt())
-                .store(StoreMapper.toEntity(branchDto.getStoreDto()))
-                .manager()
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .store(store)
+                .build();
     }
 }

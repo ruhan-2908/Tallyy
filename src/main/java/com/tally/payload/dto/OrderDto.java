@@ -1,6 +1,7 @@
 package com.tally.payload.dto;
 
 
+import com.tally.domain.PaymentType;
 import com.tally.model.Branch;
 import com.tally.model.Customer;
 import com.tally.model.OrderItem;
@@ -24,7 +25,7 @@ public class OrderDto {
 
     private Long branchId;
 
-    private BranchDto branchDto;
+    private BranchDto branch;
 
 
     private UserDto cashier;
@@ -32,7 +33,9 @@ public class OrderDto {
 //    private PaymentType paymentType;
     private Long customerId;
 
-    private Customer customerDto;
+    private Customer customer;
+
+    private PaymentType paymentType;
 
     private List<OrderItemDto> items;
 

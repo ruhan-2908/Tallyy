@@ -41,6 +41,7 @@ public class Order {
     private List<OrderItem> items;
 
     private PaymentType paymentType;
+
     @PrePersist
     protected void onCreate()
     {

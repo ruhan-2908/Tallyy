@@ -6,6 +6,7 @@ import com.tally.mapper.OrderMapper;
 import com.tally.model.*;
 import com.tally.payload.dto.OrderDto;
 import com.tally.payload.dto.OrderItemDto;
+import com.tally.repository.OrderItemRepository;
 import com.tally.repository.OrderRepository;
 import com.tally.repository.ProductRepository;
 import com.tally.service.OrderService;
@@ -27,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) throws Exception {
@@ -42,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
                 .customer(orderDto.getCustomer())
                 .paymentType(orderDto.getPaymentType())
                 .build();
-
+        orderRepository.save(order);
         List<OrderItem> orderItems = orderDto.getItems().stream().map(
                 itemDto -> {
                     Product product = productRepository.findById(itemDto.getProductId()).orElseThrow(

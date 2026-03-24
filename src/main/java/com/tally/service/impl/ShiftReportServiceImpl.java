@@ -53,7 +53,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         User currentUser = userService.getCurrentUser();
         ShiftReport shiftReport = shiftReportRepository.findTopByCashierAndShiftEndIsNullOrderByShiftStartDesc(currentUser)
                 .orElseThrow(() -> new Exception("Shift not found!"));
-        shiftReport.setShiftEnd(shiftEnd);
+        shiftReport.setShiftEnd(LocalDateTime.now());
         List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(currentUser.getId(),shiftReport.getShiftStart(),shiftReport.getShiftEnd());
         double totalRefunds = refunds.stream().mapToDouble(refund -> refund.getAmount()!=null ?refund.getAmount():0.0).sum();
         List<Order> orders = orderRepository.findByCashierAndCreatedAtBetween(currentUser,shiftReport.getShiftStart(),shiftReport.getShiftEnd());
@@ -150,11 +150,11 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         User currentUser = userService.getCurrentUser();
 
         ShiftReport shiftReport = shiftReportRepository.findTopByCashierAndShiftEndIsNullOrderByShiftStartDesc(currentUser).orElseThrow(
-                () -> new Exception("Shift not found !")
+                () -> new Exception(" No active shift found for cashier !")
         );
         LocalDateTime now = LocalDateTime.now();
         List<Order> orders = orderRepository.findByCashierAndCreatedAtBetween(currentUser, shiftReport.getShiftStart(),now);
-        List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(currentUser.getId(),shiftReport.getShiftStart(),shiftReport.getShiftEnd());
+        List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(currentUser.getId(),shiftReport.getShiftStart(),now);
         double totalRefunds = refunds.stream().mapToDouble(refund -> refund.getAmount()!=null ?refund.getAmount():0.0).sum();
         double totalSales = orders.stream().mapToDouble(Order::getTotalAmount).sum();
 
@@ -183,7 +183,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         LocalDateTime end = date.withHour(23).withMinute(59).withSecond(59);
 
         ShiftReport shiftReport = shiftReportRepository.findByCashierAndShiftStartBetween(cashier,start,end).orElseThrow(
-                () -> new Exception("Shift Report not found!")
+                () -> new Exception("Shift Report not found for date!")
         );
         return ShiftReportMapper.toDTO(shiftReport);
     }

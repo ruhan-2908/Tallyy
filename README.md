@@ -1,2 +1,2 @@
 # Tallyy
-Tally is a full-stack POS platform built with React and Spring Boot that provides multi-tenant businesses with complete sales, inventory, and payment functionality. The system consolidates operations and analytics into one intuitive dashboard for smarter decision-making
+Tally is a backend-driven POS management system built with Spring Boot that supports multi-tenant business operations through REST APIs. It provides functionalities for sales, inventory, payments, and analytics, with a scalable architecture designed to streamline business workflows and data management.
